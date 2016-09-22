@@ -33,12 +33,13 @@ function setupMethods (bacnetAddon, confirmedCallbacks) {
     if (invokeId === 0) throw new Error('Invoking BACnet read failed')
     return addCallback(invokeId, callback)
   }
-  this.writeProperty = function (deviceInstance, objectType, objectInstance, property, arrayIndex, value, callback) {
+  this.writeProperty = function (deviceInstance, objectType, objectInstance, property, arrayIndex, value, priority, callback) {
     if (!objectType) throw new TypeError('Expected an object type, got : ' + objectType)
     if (value.constructor !== bacnet.BacnetValue) {
       value = new bacnet.BacnetValue(value)
     }
-    const invokeId = bacnetAddon.writeProperty(deviceInstance, bacnet.objectTypeToNumber(objectType), objectInstance, bacnet.propertyKeyToNumber(property), arrayIndex, value)
+    if (!priority) priority = 15
+    const invokeId = bacnetAddon.writeProperty(deviceInstance, bacnet.objectTypeToNumber(objectType), objectInstance, bacnet.propertyKeyToNumber(property), arrayIndex, value, priority)
     if (invokeId === 0) throw new Error('Invoking BACnet write failed')
     return addCallback(invokeId, callback)
   }

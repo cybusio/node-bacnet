@@ -203,6 +203,8 @@ NAN_METHOD(writeProperty) {
     int32_t object_property = info[3]->ToInt32()->Value();
     uint32_t array_index = BACNET_ARRAY_ALL;
 
+    uint8_t priority = info[6]->IsUndefined() ? BACNET_NO_PRIORITY : info[6]->ToInt32()->Value();
+
     if (info[4]->IsUint32()) {
         array_index = info[4]->ToUint32()->Value();
     }
@@ -219,7 +221,7 @@ NAN_METHOD(writeProperty) {
                 object_instance,
                 (BACNET_PROPERTY_ID)object_property,
                 &object_value,
-                BACNET_NO_PRIORITY,
+                priority,
                 array_index);
             info.GetReturnValue().Set(Nan::New(invoke_id));
         } else {

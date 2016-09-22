@@ -57,7 +57,7 @@ describe('Write property', function () {
         device.once('write-property-ack', () => {
           device.readProperty('127.0.0.1', 'device', 260001, propertyKey, false)
         })
-        device.writeProperty('127.0.0.1', 'device', 260001, propertyKey, false, value)
+        device.writeProperty('127.0.0.1', 'device', 260001, propertyKey, false, value, 8)
         device.once('error', done)
       })
     }
